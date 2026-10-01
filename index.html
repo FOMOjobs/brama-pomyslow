@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brama Pomysłów</title>
+<meta name="description" content="Opisz pomysł na swoją okolicę, a Brama Pomysłów wskaże właściwą drogę w Krakowie i przygotuje szkic wniosku.">
+<meta name="theme-color" content="#0047BB">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="skip" href="#tresc">Przejdź do treści</a>
+
+<header class="topbar">
+  <div class="topbar__in">
+    <a class="brand" href="#/start" aria-label="Brama Pomysłów, start">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 21V11a8 8 0 0 1 16 0v10"/><path d="M9.5 21v-5.5a2.5 2.5 0 0 1 5 0V21"/><path d="M2.5 21h19"/></svg>
+      </span>
+      <span>
+        <span class="brand__name">Brama Pomysłów</span>
+        <span class="brand__city">Kraków</span>
+      </span>
+    </a>
+    <button type="button" class="btn-aplus" id="wiekszy-tekst" aria-pressed="false" aria-label="Większa czcionka">A+</button>
+  </div>
+  <div class="fala" aria-hidden="true"></div>
+</header>
+
+<main id="tresc" tabindex="-1">
+<noscript><p class="noscript">Ta strona potrzebuje JavaScriptu, żeby przechodzić między ekranami.</p></noscript>
+
+<!-- 1. Start -->
+<section class="screen" data-route="start" data-title="Start" aria-labelledby="h-start">
+  <div class="stack">
+    <span class="pill">Dla mieszkańców Krakowa</span>
+    <h1 id="h-start" tabindex="-1">Masz pomysł na swoją okolicę?</h1>
+    <p class="lead">Opisz go zwykłymi słowami. Powiemy Ci, którą drogą iść w Krakowie, i pomożemy napisać wniosek.</p>
+  </div>
+
+  <div class="card stack-sm">
+    <label class="label" for="pomysl">Twój pomysł</label>
+    <textarea id="pomysl" rows="5" placeholder="Np. chcemy posadzić kwiaty i postawić ławki przy naszym bloku"></textarea>
+    <div class="row">
+      <button type="button" class="btn-mic" id="mikrofon" aria-pressed="false" aria-label="Powiedz swój pomysł głosem">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg>
+      </button>
+      <a class="btn btn-primary grow" href="#/pytania">Sprawdź, co dalej
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <p class="mic-status" id="mikrofon-status" role="status" hidden></p>
+  </div>
+
+  <div class="stack-sm">
+    <h2 class="h-small">Albo zacznij od przykładu</h2>
+    <div class="grid-2" id="przyklady" data-group="przyklady">
+      <button type="button" class="example" aria-pressed="false" data-value="0" data-text="Ławki i kwietniki przy naszym bloku w Bieńczycach. Sąsiedzi pomogą sadzić.">Ławki i kwietniki przy bloku</button>
+      <button type="button" class="example" aria-pressed="false" data-value="1" data-text="Plac zabaw w parku dostępny dla dzieci z niepełnosprawnościami.">Plac zabaw dla każdego dziecka</button>
+      <button type="button" class="example" aria-pressed="false" data-value="2" data-text="Warsztaty ze smartfona dla seniorów w osiedlowej bibliotece.">Smartfon dla seniorów: warsztaty</button>
+      <button type="button" class="example" aria-pressed="false" data-value="3" data-text="Dziura w chodniku na mojej ulicy.">Dziura w chodniku</button>
+    </div>
+  </div>
+
+  <a class="card-link" href="#/bo">
+    <span>
+      <span class="card-link__title">Twój projekt z budżetu obywatelskiego nie wygrał?</span>
+      <span class="card-link__sub">Sprawdź, jak zrobić go inną drogą.</span>
+    </span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+  </a>
+
+  <p class="note">Nie potrzebujemy Twoich danych osobowych. Opisy ścieżek pochodzą z oficjalnych stron miasta.</p>
+</section>
+
+<!-- 2. Pytania -->
+<section class="screen" data-route="pytania" data-title="Pytania" aria-labelledby="h-pytania" hidden>
+  <nav class="stepnav" aria-label="Kroki">
+    <a class="back" href="#/start">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>Wróć
+    </a>
+    <span class="step">Krok 2 z 3</span>
+  </nav>
+  <div class="progress" aria-hidden="true"><span style="width: 66%"></span></div>
+
+  <div class="card card--tint stack-xs">
+    <span class="card__label">Twój pomysł</span>
+    <p class="recap" id="recap">Ławki i kwietniki przy naszym bloku w Bieńczycach. Sąsiedzi pomogą sadzić.</p>
+    <p class="recap-note" id="recap-note" hidden>To prototyp: dalej pokazujemy przykładowy scenariusz z ławkami w Bieńczycach.</p>
+  </div>
+
+  <div class="stack-xs">
+    <h1 id="h-pytania" class="h1-sm" tabindex="-1">Jeszcze 3 szybkie pytania</h1>
+    <p class="lead lead--sm">Pytamy tylko o to, co zmienia wynik.</p>
+  </div>
+
+  <div class="stack-xs">
+    <label class="q-label" for="dzielnica">W której dzielnicy?</label>
+    <div class="select-wrap">
+      <select id="dzielnica">
+        <option>I Stare Miasto</option>
+        <option>II Grzegórzki</option>
+        <option>III Prądnik Czerwony</option>
+        <option>IV Prądnik Biały</option>
+        <option>V Krowodrza</option>
+        <option>VI Bronowice</option>
+        <option>VII Zwierzyniec</option>
+        <option>VIII Dębniki</option>
+        <option>IX Łagiewniki-Borek Fałęcki</option>
+        <option>X Swoszowice</option>
+        <option>XI Podgórze Duchackie</option>
+        <option>XII Bieżanów-Prokocim</option>
+        <option>XIII Podgórze</option>
+        <option>XIV Czyżyny</option>
+        <option>XV Mistrzejowice</option>
+        <option selected>XVI Bieńczyce</option>
+        <option>XVII Wzgórza Krzesławickie</option>
+        <option>XVIII Nowa Huta</option>
+      </select>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend>Kto będzie działać?</legend>
+    <div class="chips" data-group="kto">
+      <button type="button" class="chip" aria-pressed="false" data-value="ja">Ja sam/sama</button>
+      <button type="button" class="chip" aria-pressed="true" data-value="sasiedzi">Grupa sąsiadów</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="org">Organizacja</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Czy możecie dać własną pracę?</legend>
+    <div class="chips" data-group="praca">
+      <button type="button" class="chip" aria-pressed="true" data-value="tak">Tak, sporo</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="troche">Trochę</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="nie">Nie</button>
+    </div>
+    <p class="hint">Np. sadzenie, malowanie, sprzątanie, opieka po realizacji.</p>
+  </fieldset>
+
+  <a class="btn btn-primary" href="#/wynik">Pokaż ścieżki
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+  </a>
+</section>
+
+<!-- 3. Wynik -->
+<section class="screen" data-route="wynik" data-title="Wynik" aria-labelledby="h-wynik" hidden>
+  <nav class="stepnav" aria-label="Kroki">
+    <a class="back" href="#/pytania">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>Wróć
+    </a>
+    <span class="step">Krok 3 z 3</span>
+  </nav>
+  <div class="progress" aria-hidden="true"><span style="width: 100%"></span></div>
+
+  <div class="stack-xs">
+    <h1 id="h-wynik" class="h1-md" tabindex="-1">Najlepsza droga dla Twojego pomysłu</h1>
+    <p class="lead lead--sm">Ławki i kwietniki przy bloku · XVI Bieńczyce · grupa sąsiadów · własna praca</p>
+  </div>
+
+  <article class="card card--accent stack-md" aria-labelledby="h-il">
+    <div class="result-top">
+      <span class="badge-gold">Najlepsze dopasowanie</span>
+      <span class="score">92 / 100</span>
+    </div>
+    <div class="stack-xs">
+      <h2 id="h-il" class="h2-lg">Inicjatywa lokalna</h2>
+      <div class="meter" aria-hidden="true"><span style="width: 92%"></span></div>
+    </div>
+    <p class="body">Sąsiedzi dadzą własną pracę, a miasto kupi rośliny i ławki. Tak właśnie działa inicjatywa lokalna: miasto nie przelewa pieniędzy, tylko samo robi zakupy albo użycza sprzętu.</p>
+    <ul class="facts">
+      <li>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span><strong>Nabór:</strong> cały rok, do wyczerpania puli</span>
+      </li>
+      <li>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 21h18"/><path d="M5 21V10"/><path d="M9.5 21V10"/><path d="M14.5 21V10"/><path d="M19 21V10"/><path d="M2 10l10-6 10 6"/></svg>
+        <span><strong>Rozpatruje:</strong> Urząd Miasta Krakowa (Biuro MOWIS)</span>
+      </li>
+      <li>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>
+        <span><strong>Odpowiedź:</strong> zwykle do 30 dni</span>
+      </li>
+    </ul>
+    <div class="checklist">
+      <h3 class="h3">Co przygotować</h3>
+      <label class="check"><input type="checkbox"> Opis pomysłu i dokładne miejsce</label>
+      <label class="check"><input type="checkbox"> Imienna lista poparcia sąsiadów</label>
+      <label class="check"><input type="checkbox"> Oświadczenie o zaangażowaniu w realizację</label>
+      <label class="check"><input type="checkbox"> Zgoda właściciela terenu, jeśli to nie teren miasta</label>
+      <label class="check"><input type="checkbox"> Opinia rady dzielnicy (nieobowiązkowa)</label>
+    </div>
+    <div class="alert">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5l9 16h-18z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>
+      <p><strong>Uwaga:</strong> sprawdźcie, czyj jest teren przy bloku. Jeśli należy do spółdzielni, potrzebna będzie jej zgoda.</p>
+    </div>
+    <a class="btn btn-primary" href="#/wniosek">Przygotuj szkic wniosku
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="link-ext link-ext--center" href="https://obywatelski.krakow.pl" target="_blank" rel="noopener">Oficjalna strona inicjatywy lokalnej
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+      <span class="sr-only">(otwiera się w nowej karcie)</span>
+    </a>
+  </article>
+
+  <section class="stack-sm" aria-labelledby="h-inne">
+    <h2 id="h-inne" class="h2">Inne możliwe drogi</h2>
+    <article class="alt">
+      <div class="alt__top">
+        <h3>Rada Dzielnicy XVI Bieńczyce</h3>
+        <span class="score score--muted">70 / 100</span>
+      </div>
+      <p>Może wesprzeć pomysł i wydać opinię do wniosku. Dobry pierwszy kontakt.</p>
+    </article>
+    <article class="alt">
+      <div class="alt__top">
+        <h3>Małopolska Lokalnie</h3>
+        <span class="score score--muted">55 / 100</span>
+      </div>
+      <p>Mikrodotacja do 6000 zł dla grup sąsiadów. Nabór 2026 jest zamknięty, kolejny prawdopodobnie wiosną 2027.</p>
+      <a class="link-ext" href="https://malopolskalokalnie.pl" target="_blank" rel="noopener">malopolskalokalnie.pl
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+        <span class="sr-only">(otwiera się w nowej karcie)</span>
+      </a>
+    </article>
+  </section>
+
+  <p class="note">Opisy ścieżek pochodzą z oficjalnych stron miasta i operatorów programów. Przed złożeniem wniosku sprawdź aktualny regulamin.</p>
+</section>
+
+<!-- 4. Szkic wniosku -->
+<section class="screen" data-route="wniosek" data-title="Szkic wniosku" aria-labelledby="h-wniosek" hidden>
+  <nav class="stepnav no-print" aria-label="Nawigacja">
+    <a class="back" href="#/wynik">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>Wróć do wyniku
+    </a>
+    <span class="step">Szkic wniosku</span>
+  </nav>
+
+  <div class="stack-xs">
+    <span class="pill">Inicjatywa lokalna</span>
+    <h1 id="h-wniosek" class="h1-md" tabindex="-1">Szkic wniosku</h1>
+    <p class="lead lead--sm no-print">Napisaliśmy go z Twoich odpowiedzi. Popraw, co chcesz, i uzupełnij miejsca oznaczone [UZUPEŁNIJ].</p>
+  </div>
+
+  <div class="card" id="formularz-wniosku">
+    <div class="form-grid">
+      <div class="field">
+        <label for="w-tytul">Tytuł</label>
+        <textarea id="w-tytul" rows="2">Zielone podwórko przy bloku w Bieńczycach</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field">
+        <label for="w-opis">Opis działania</label>
+        <textarea id="w-opis" rows="5">Posadzimy kwiaty i krzewy oraz ustawimy dwie ławki przy bloku [UZUPEŁNIJ: adres]. Sąsiedzi przygotują rabaty, posadzą rośliny i będą je podlewać.</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field">
+        <label for="w-miejsce">Miejsce</label>
+        <textarea id="w-miejsce" rows="1">[UZUPEŁNIJ: adres i numer działki]</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field">
+        <label for="w-potrzeba">Potrzeba i uzasadnienie</label>
+        <textarea id="w-potrzeba" rows="3">Teren przy bloku jest zaniedbany. Brakuje miejsca do odpoczynku dla seniorów i rodzin z dziećmi.</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field">
+        <label for="w-wklad">Wkład mieszkańców</label>
+        <textarea id="w-wklad" rows="5">Praca społeczna: [UZUPEŁNIJ: liczba] sąsiadów, około [UZUPEŁNIJ] godzin. Wkład rzeczowy: własne narzędzia ogrodnicze. Opieka nad roślinami po posadzeniu.</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field">
+        <label for="w-pomoc">Oczekiwana pomoc miasta</label>
+        <textarea id="w-pomoc" rows="2">Zakup roślin, ziemi i dwóch ławek oraz ich dostarczenie.</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field">
+        <label for="w-odbiorcy">Liczba odbiorców</label>
+        <textarea id="w-odbiorcy" rows="2">[UZUPEŁNIJ: np. mieszkańcy 3 bloków]</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field field--half">
+        <label for="w-termin">Harmonogram</label>
+        <textarea id="w-termin" rows="2">[UZUPEŁNIJ: np. kwiecień-maj]</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+      <div class="field field--half">
+        <label for="w-koszt">Szacowany koszt</label>
+        <textarea id="w-koszt" rows="2">[UZUPEŁNIJ] zł</textarea>
+        <div class="print-value" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 no-print">
+    <button type="button" class="btn btn-primary btn-sm" id="kopiuj">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4"/></svg>
+      <span id="kopiuj-tekst">Kopiuj tekst</span>
+    </button>
+    <button type="button" class="btn btn-outline btn-sm" id="drukuj">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 9V4h10v5"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v6H7z"/></svg>
+      Drukuj / PDF
+    </button>
+  </div>
+  <p class="sr-only" id="kopiuj-status" role="status"></p>
+
+  <section class="card stack-sm" aria-labelledby="h-zal">
+    <h2 id="h-zal" class="h2-sm">Załączniki</h2>
+    <ul class="ticks">
+      <li>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <span>Imienna lista poparcia sąsiadów (adresy i podpisy)</span>
+      </li>
+      <li>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <span>Oświadczenie o zaangażowaniu w realizację</span>
+      </li>
+      <li>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <span>Zgoda właściciela terenu, jeśli to nie teren miasta</span>
+      </li>
+      <li>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <span>Opinia rady dzielnicy (nieobowiązkowa)</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="card card--tint stack-sm no-print" aria-labelledby="h-dalej">
+    <h2 id="h-dalej" class="h2-sm">Co dalej</h2>
+    <ol class="steps">
+      <li>Zbierzcie podpisy sąsiadów na liście poparcia.</li>
+      <li>Poproście radę dzielnicy o wsparcie i opinię. Opinia nie jest obowiązkowa.</li>
+      <li>Złóżcie wniosek przez ePUAP, pocztą albo osobiście w urzędzie.</li>
+    </ol>
+  </section>
+
+  <a class="restart no-print" href="#/start">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"/><path d="M20 20v-4h-4"/></svg>
+    Zacznij od nowa
+  </a>
+</section>
+
+<!-- Projekt z BO nie wygrał -->
+<section class="screen" data-route="bo" data-title="Projekt z budżetu obywatelskiego" aria-labelledby="h-bo" hidden>
+  <nav class="stepnav" aria-label="Nawigacja">
+    <a class="back" href="#/start">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>Wróć
+    </a>
+    <span class="step">Budżet obywatelski</span>
+  </nav>
+
+  <div class="stack-xs">
+    <h1 id="h-bo" class="h1-md" tabindex="-1">Twój projekt z budżetu obywatelskiego nie wygrał?</h1>
+    <p class="lead">To nie koniec. Wiele pomysłów da się zrobić inną drogą.</p>
+  </div>
+
+  <aside class="info">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+    <div class="stack-xs">
+      <p>W 13. edycji budżetu obywatelskiego Krakowa zgłoszono 821 projektów. Pozytywną ocenę dostały 424.</p>
+      <span class="source">Źródło: <a href="https://zdmk.krakow.pl/dzialania/budzet-obywatelski/" target="_blank" rel="noopener">Zarząd Dróg Miasta Krakowa</a></span>
+    </div>
+  </aside>
+
+  <div class="card stack-sm">
+    <label class="label label--strong" for="projekt">Wklej tytuł i opis projektu</label>
+    <textarea id="projekt" rows="3">Stoły do szachów i ławki na skwerze przy ul. [UZUPEŁNIJ]. Miejsce spotkań dla seniorów i młodzieży.</textarea>
+    <button type="button" class="btn btn-primary btn-sm" id="znajdz">Znajdź inną drogę</button>
+  </div>
+
+  <section class="stack-sm" id="drogi" aria-labelledby="h-drogi" tabindex="-1">
+    <h2 id="h-drogi" class="h2">Co możesz zrobić dalej</h2>
+    <article class="alt alt--best">
+      <div class="alt__top">
+        <h3>Inicjatywa lokalna</h3>
+        <span class="score">85 / 100</span>
+      </div>
+      <p>Jeśli sąsiedzi dadzą pracę (malowanie, sprzątanie, opieka), miasto może kupić stoły i ławki.</p>
+      <a class="link-ext" href="https://obywatelski.krakow.pl" target="_blank" rel="noopener">obywatelski.krakow.pl
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+        <span class="sr-only">(otwiera się w nowej karcie)</span>
+      </a>
+    </article>
+    <article class="alt">
+      <div class="alt__top">
+        <h3>Rada dzielnicy</h3>
+        <span class="score score--muted">70 / 100</span>
+      </div>
+      <p>Zapytaj, czy rada może wesprzeć pomysł w ramach swoich zadań.</p>
+    </article>
+    <article class="alt">
+      <div class="alt__top">
+        <h3>Kolejna edycja budżetu</h3>
+        <span class="score score--muted">60 / 100</span>
+      </div>
+      <p>Popraw projekt według uwag z oceny i zgłoś go ponownie. Najpierw zrób test poniżej.</p>
+      <a class="link-ext" href="https://budzet.krakow.pl" target="_blank" rel="noopener">budzet.krakow.pl
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+        <span class="sr-only">(otwiera się w nowej karcie)</span>
+      </a>
+    </article>
+    <article class="alt">
+      <div class="alt__top">
+        <h3>Organizacja pozarządowa</h3>
+        <span class="score score--muted">50 / 100</span>
+      </div>
+      <p>Organizacja może poprowadzić projekt razem z Wami i szukać na niego dotacji.</p>
+      <a class="link-ext" href="https://ngo.krakow.pl" target="_blank" rel="noopener">ngo.krakow.pl
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+        <span class="sr-only">(otwiera się w nowej karcie)</span>
+      </a>
+    </article>
+  </section>
+
+  <section class="card" id="test-bo" aria-labelledby="h-test">
+    <h2 id="h-test" class="h2">Sprawdź przed kolejnym zgłoszeniem</h2>
+    <p class="hint hint--top">Prawie połowa projektów odpada na ocenie. Odpowiedz na 4 pytania.</p>
+    <div class="q" role="group" aria-labelledby="q-teren">
+      <p id="q-teren">Teren należy do miasta</p>
+      <div class="seg" data-group="teren">
+        <button type="button" aria-pressed="false" data-value="tak">Tak</button>
+        <button type="button" aria-pressed="false" data-value="nie">Nie</button>
+        <button type="button" aria-pressed="true" data-value="niewiem">Nie wiem</button>
+      </div>
+    </div>
+    <div class="q" role="group" aria-labelledby="q-zadanie">
+      <p id="q-zadanie">To zadanie, które może wykonać miasto</p>
+      <div class="seg" data-group="zadanie">
+        <button type="button" aria-pressed="true" data-value="tak">Tak</button>
+        <button type="button" aria-pressed="false" data-value="nie">Nie</button>
+        <button type="button" aria-pressed="false" data-value="niewiem">Nie wiem</button>
+      </div>
+    </div>
+    <div class="q" role="group" aria-labelledby="q-koszt">
+      <p id="q-koszt">Koszt mieści się w progach regulaminu</p>
+      <div class="seg" data-group="koszt">
+        <button type="button" aria-pressed="true" data-value="tak">Tak</button>
+        <button type="button" aria-pressed="false" data-value="nie">Nie</button>
+        <button type="button" aria-pressed="false" data-value="niewiem">Nie wiem</button>
+      </div>
+    </div>
+    <div class="q" role="group" aria-labelledby="q-utrzymanie">
+      <p id="q-utrzymanie">Znamy koszty utrzymania po realizacji</p>
+      <div class="seg" data-group="utrzymanie">
+        <button type="button" aria-pressed="false" data-value="tak">Tak</button>
+        <button type="button" aria-pressed="false" data-value="nie">Nie</button>
+        <button type="button" aria-pressed="true" data-value="niewiem">Nie wiem</button>
+      </div>
+    </div>
+    <div class="risk-box" aria-live="polite">
+      <div class="row row--wrap">
+        <span class="risk-label">Ryzyko odrzucenia:</span>
+        <span class="risk risk-mid" id="ryzyko">średnie</span>
+      </div>
+      <p id="ryzyko-rada">Wyjaśnij punkty z odpowiedzią „Nie” albo „Nie wiem”, zanim zgłosisz projekt.</p>
+    </div>
+  </section>
+</section>
+
+<!-- Panel dla miasta i organizacji -->
+<section class="screen screen--wide" data-route="panel" data-title="Panel dla miasta i organizacji" aria-labelledby="h-panel" hidden>
+  <div class="panel-head">
+    <div class="stack-xs">
+      <span class="badge-gold badge-gold--start">Dane demonstracyjne</span>
+      <h1 id="h-panel" class="h1-md" tabindex="-1">Pomysły mieszkańców</h1>
+      <p class="lead lead--sm">Co zgłaszają krakowianie i dokąd kieruje ich Brama Pomysłów.</p>
+    </div>
+    <div class="filters">
+      <div class="f">
+        <label for="f-dz">Dzielnica</label>
+        <select id="f-dz">
+          <option value="all">Wszystkie dzielnice</option>
+          <option>I Stare Miasto</option>
+          <option>II Grzegórzki</option>
+          <option>III Prądnik Czerwony</option>
+          <option>IV Prądnik Biały</option>
+          <option>V Krowodrza</option>
+          <option>VI Bronowice</option>
+          <option>VII Zwierzyniec</option>
+          <option>VIII Dębniki</option>
+          <option>IX Łagiewniki-Borek Fałęcki</option>
+          <option>X Swoszowice</option>
+          <option>XI Podgórze Duchackie</option>
+          <option>XII Bieżanów-Prokocim</option>
+          <option>XIII Podgórze</option>
+          <option>XIV Czyżyny</option>
+          <option>XV Mistrzejowice</option>
+          <option>XVI Bieńczyce</option>
+          <option>XVII Wzgórza Krzesławickie</option>
+          <option>XVIII Nowa Huta</option>
+        </select>
+      </div>
+      <div class="f">
+        <label for="f-sc">Ścieżka</label>
+        <select id="f-sc">
+          <option value="all">Wszystkie ścieżki</option>
+          <option>Inicjatywa lokalna</option>
+          <option>Budżet obywatelski</option>
+          <option>Rada dzielnicy</option>
+          <option>Małopolska Lokalnie</option>
+          <option>Organizacja pozarządowa</option>
+          <option>Zgłoszenie do urzędu</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-outline btn-sm f-btn" id="eksport">Eksportuj CSV</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <section class="card kpi">
+      <h2 class="kpi__label">Nowe pomysły</h2>
+      <span class="kpi__value">128</span>
+      <span class="kpi__sub">w ostatnich 30 dniach</span>
+    </section>
+    <section class="card kpi">
+      <h2 class="kpi__label">Do inicjatywy lokalnej</h2>
+      <span class="kpi__value kpi__value--blue">41</span>
+      <span class="kpi__sub">32% wszystkich pomysłów</span>
+    </section>
+    <section class="card kpi">
+      <h2 class="kpi__label">Usterki przekazane dalej</h2>
+      <span class="kpi__value">23</span>
+      <span class="kpi__sub">do Krakowskiego Centrum Kontaktu</span>
+    </section>
+    <section class="card kpi">
+      <h2 class="kpi__label">Organizacje gotowe pomóc</h2>
+      <span class="kpi__value">9</span>
+      <span class="kpi__sub">kliknęły „Chcę pomóc”</span>
+    </section>
+  </div>
+
+  <section class="card map-card" aria-labelledby="h-mapa">
+    <div class="map-card__head">
+      <div class="stack-xs">
+        <h2 id="h-mapa">Mapa inicjatyw</h2>
+        <p class="lead lead--sm" id="mapa-podsumowanie" aria-live="polite"></p>
+      </div>
+      <div class="map-tools">
+        <ul class="legend" aria-label="Legenda">
+          <li><span class="pin pin--mini pin--wsparcie" aria-hidden="true"></span>Szuka wsparcia</li>
+          <li><span class="pin pin--mini pin--przygotowanie" aria-hidden="true"></span>W przygotowaniu</li>
+          <li><span class="pin pin--mini pin--realizacja" aria-hidden="true"></span>W realizacji</li>
+        </ul>
+        <label class="check check--inline"><input type="checkbox" id="tylko-wsparcie"> Tylko szukające wsparcia</label>
+      </div>
+    </div>
+    <div class="map-layout">
+      <div class="map" id="mapa" role="region" aria-label="Mapa inicjatyw w Krakowie. Te same inicjatywy są na liście obok."></div>
+      <div class="map-list-wrap">
+        <h3 class="sr-only">Inicjatywy z mapy</h3>
+        <ol class="map-list" id="lista-mapy"></ol>
+      </div>
+    </div>
+    <p class="note">Inicjatywy i ich lokalizacje są przykładowe.</p>
+  </section>
+
+  <div class="charts">
+    <section class="card chart" aria-labelledby="h-dz">
+      <h2 id="h-dz">Pomysły wg dzielnic</h2>
+      <ul class="bars" id="wykres-dzielnice"></ul>
+    </section>
+    <section class="card chart" aria-labelledby="h-sc">
+      <h2 id="h-sc">Pomysły wg ścieżek</h2>
+      <ul class="bars" id="wykres-sciezki"></ul>
+    </section>
+  </div>
+
+  <section class="card ideas" aria-labelledby="h-najnowsze">
+    <h2 id="h-najnowsze">Najnowsze pomysły</h2>
+    <div class="ideas-head" aria-hidden="true">
+      <span>Pomysł</span><span>Dzielnica</span><span>Ścieżka</span><span>Kiedy</span><span class="right">Akcja</span>
+    </div>
+    <ul class="ideas-list" id="lista-pomyslow"></ul>
+  </section>
+</section>
+
+<!-- O projekcie -->
+<section class="screen screen--wide" data-route="o-projekcie" data-title="O projekcie" aria-labelledby="h-o" hidden>
+  <div class="pitch">
+    <div class="pitch__brand">
+      <span class="brand__mark brand__mark--inverse" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0047BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 21V11a8 8 0 0 1 16 0v10"/><path d="M9.5 21v-5.5a2.5 2.5 0 0 1 5 0V21"/><path d="M2.5 21h19"/></svg>
+      </span>
+      <span>Brama Pomysłów · Kraków</span>
+    </div>
+    <h1 id="h-o" tabindex="-1">Pomysły są. Brakuje drogowskazu.</h1>
+    <div class="stats">
+      <article class="stat">
+        <span class="stat__big">821 → 424</span>
+        <p>projektów zgłoszonych i pozytywnie ocenionych w 13. edycji budżetu obywatelskiego Krakowa</p>
+        <span class="stat__src">Źródło: <a href="https://zdmk.krakow.pl/dzialania/budzet-obywatelski/" target="_blank" rel="noopener">Zarząd Dróg Miasta Krakowa, 2026</a></span>
+      </article>
+      <article class="stat">
+        <span class="stat__big">27</span>
+        <p>wniosków o inicjatywę lokalną wpłynęło w 2023 r. na cały Kraków</p>
+        <span class="stat__src">Źródło: <a href="https://www.krakow.pl/aktualnosci/278957,26,komunikat,zglos_projekt_w_ramach_inicjatywy_lokalnej.html" target="_blank" rel="noopener">krakow.pl, 2024</a></span>
+      </article>
+      <article class="stat">
+        <span class="stat__big">NIK</span>
+        <p>Inicjatywa lokalna jest mało znana, a gminom zdarza się mylić ją z budżetem obywatelskim i funduszem sołeckim</p>
+        <span class="stat__src">Źródło: <a href="https://www.nik.gov.pl/najnowsze-informacje-o-wynikach-kontroli/malo-znana-inicjatywa-lokalna.html" target="_blank" rel="noopener">Najwyższa Izba Kontroli, 2019</a></span>
+      </article>
+    </div>
+    <div class="pitch__bottom">
+      <p class="pitch__claim">Opisz pomysł. Dostań właściwą drogę i gotowy szkic wniosku.</p>
+      <a class="btn btn-light" href="#/start">Wypróbuj prototyp</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="stopka">
+  <div class="stopka__in">
+    <nav aria-label="Sekcje">
+      <ul>
+        <li><a href="#/start" data-nav="start">Start</a></li>
+        <li><a href="#/bo" data-nav="bo">Projekt z BO nie wygrał</a></li>
+        <li><a href="#/panel" data-nav="panel">Panel dla miasta</a></li>
+        <li><a href="#/o-projekcie" data-nav="o-projekcie">O projekcie</a></li>
+      </ul>
+    </nav>
+    <p>Prototyp. Dane w panelu są przykładowe.</p>
+  </div>
+</footer>
+
+<script src="assets/vendor/leaflet/leaflet.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
