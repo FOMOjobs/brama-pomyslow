@@ -341,6 +341,9 @@
       <li>Poproście radę dzielnicy o wsparcie i opinię. Opinia nie jest obowiązkowa.</li>
       <li>Złóżcie wniosek przez ePUAP, pocztą albo osobiście w urzędzie.</li>
     </ol>
+    <a class="link-ext" href="#/dodaj/wniosek">Szukacie ludzi do pomocy? Dodajcie inicjatywę na mapę
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+    </a>
   </section>
 
   <a class="restart no-print" href="#/start">
@@ -551,6 +554,10 @@
           <li><span class="pin pin--mini pin--realizacja" aria-hidden="true"></span>W realizacji</li>
         </ul>
         <label class="check check--inline"><input type="checkbox" id="tylko-wsparcie"> Tylko szukające wsparcia</label>
+        <a class="btn btn-primary btn-sm f-btn" href="#/dodaj">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          Dodaj inicjatywę
+        </a>
       </div>
     </div>
     <div class="map-layout">
@@ -560,7 +567,7 @@
         <ol class="map-list" id="lista-mapy"></ol>
       </div>
     </div>
-    <p class="note">Inicjatywy i ich lokalizacje są przykładowe.</p>
+    <p class="note">Inicjatywy i ich lokalizacje są przykładowe. Kliknij inicjatywę na mapie, żeby zobaczyć jej stronę.</p>
   </section>
 
   <div class="charts">
@@ -581,6 +588,222 @@
     </div>
     <ul class="ideas-list" id="lista-pomyslow"></ul>
   </section>
+</section>
+
+<!-- Strona inicjatywy (#/inicjatywa/<id>) -->
+<section class="screen screen--wide" data-route="inicjatywa" data-title="Inicjatywa" aria-labelledby="h-inicjatywa" hidden>
+  <nav class="stepnav" aria-label="Nawigacja">
+    <a class="back" href="#/panel">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>Wróć do mapy inicjatyw
+    </a>
+  </nav>
+
+  <div class="stack-xs">
+    <div class="ev-badges" id="ev-odznaki"></div>
+    <h1 id="h-inicjatywa" class="h1-md" tabindex="-1">Inicjatywa</h1>
+    <p class="lead lead--sm" id="ev-meta"></p>
+  </div>
+
+  <div class="stack-sm" id="ev-brak" hidden>
+    <p class="lead">Tej inicjatywy nie ma na mapie. Mogła zostać usunięta albo link jest niepełny.</p>
+    <a class="btn btn-primary btn-sm" href="#/panel">Pokaż wszystkie inicjatywy</a>
+  </div>
+
+  <div class="event" id="ev">
+    <div class="event__col">
+      <section class="card stack-md ev-kiedy" aria-labelledby="h-ev-kiedy">
+        <h2 id="h-ev-kiedy" class="sr-only">Kiedy i gdzie</h2>
+        <p class="ev-past" id="ev-po" hidden>To wydarzenie już się odbyło. Dodaj wpis i zdjęcia z akcji.</p>
+        <ul class="facts" id="ev-fakty"></ul>
+        <div class="stack-xs" id="ev-zapisy">
+          <p class="ev-count" id="ev-licznik"></p>
+          <div class="meter" id="ev-miernik" aria-hidden="true"><span id="ev-pasek"></span></div>
+        </div>
+        <div class="ev-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="ev-dolacz">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+            <span id="ev-dolacz-tekst">Będę</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" id="ev-kalendarz">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+            Dodaj do kalendarza
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" id="ev-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>
+            <span id="ev-link-tekst">Skopiuj link</span>
+          </button>
+        </div>
+        <p class="sr-only" id="ev-status" role="status"></p>
+      </section>
+
+      <section class="card stack-sm ev-opis" aria-labelledby="h-ev-opis">
+        <h2 id="h-ev-opis" class="h2">O inicjatywie</h2>
+        <div class="ev-text" id="ev-opis"></div>
+      </section>
+
+      <section class="card stack-sm ev-potrzeby" aria-labelledby="h-ev-potrzeby">
+        <h2 id="h-ev-potrzeby" class="h2">Czego potrzeba i kto pomaga</h2>
+        <p class="ev-needs" id="ev-potrzeby"></p>
+        <ul class="partners" id="ev-partnerzy"></ul>
+        <div class="ev-org">
+          <p>Reprezentujesz organizację albo instytucję i możesz pomóc?</p>
+          <div id="ev-pomoc"></div>
+        </div>
+      </section>
+
+      <section class="card stack-sm ev-galeria" aria-labelledby="h-ev-galeria">
+        <h2 id="h-ev-galeria" class="h2">Zdjęcia</h2>
+        <ul class="gallery" id="ev-galeria"></ul>
+      </section>
+
+      <section class="card stack-md ev-wpisy" aria-labelledby="h-ev-wpisy">
+        <div class="stack-xs">
+          <h2 id="h-ev-wpisy" class="h2" tabindex="-1">Wpisy</h2>
+          <p class="lead lead--sm" id="ev-wpisy-podsumowanie"></p>
+        </div>
+
+        <form class="log-form stack-sm" id="wpis-form" novalidate>
+          <fieldset>
+            <legend>Dodaj wpis</legend>
+            <div class="chips" data-group="wpis-typ">
+              <button type="button" class="chip" aria-pressed="true" data-value="bede" id="wpis-typ-bede">Będę</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="bylem" id="wpis-typ-bylem">Byłem/am</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="komentarz">Komentarz</button>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="wpis-autor">Imię albo nick</label>
+            <input class="input" id="wpis-autor" type="text" maxlength="40" autocomplete="nickname">
+          </div>
+          <div class="field">
+            <label for="wpis-tresc">Treść <span class="optional">(nieobowiązkowa przy zapisie)</span></label>
+            <textarea id="wpis-tresc" rows="3" maxlength="1000" placeholder="Np. Będę z dziećmi, weźmiemy własne rękawice."></textarea>
+          </div>
+          <div class="photo-pick">
+            <input class="sr-only" id="wpis-zdjecie" type="file" accept="image/*">
+            <label class="btn btn-outline btn-sm" for="wpis-zdjecie">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              Dodaj zdjęcie
+            </label>
+            <div class="photo-pick__preview" id="wpis-podglad" hidden>
+              <img id="wpis-miniatura" alt="Wybrane zdjęcie">
+              <button type="button" class="link-btn" id="wpis-usun-zdjecie">Usuń zdjęcie</button>
+            </div>
+          </div>
+          <p class="form-error" id="wpis-blad" role="alert" hidden></p>
+          <button type="submit" class="btn btn-primary btn-sm">Dodaj wpis</button>
+          <p class="note">Prototyp: wpisy i zdjęcia zapisują się tylko w tej przeglądarce.</p>
+        </form>
+
+        <ol class="logs" id="ev-wpisy"></ol>
+      </section>
+    </div>
+
+    <div class="event__col">
+      <section class="card stack-sm ev-mapa" aria-labelledby="h-ev-mapa">
+        <h2 id="h-ev-mapa" class="h2">Na mapie</h2>
+        <div class="map map--small" id="mapa-inicjatywy" role="region" aria-label="Mapa miejsca inicjatywy. Te same punkty są na liście poniżej."></div>
+        <ol class="waypoints" id="ev-punkty"></ol>
+        <a class="link-ext" id="ev-trasa" href="#" target="_blank" rel="noopener">Wyznacz trasę
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+          <span class="sr-only">(otwiera się w nowej karcie)</span>
+        </a>
+      </section>
+
+      <section class="card stack-sm ev-udogodnienia" id="ev-udogodnienia-karta" aria-labelledby="h-ev-udogodnienia">
+        <h2 id="h-ev-udogodnienia" class="h2">Udogodnienia</h2>
+        <ul class="attrs" id="ev-udogodnienia"></ul>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- Dodaj inicjatywę -->
+<section class="screen" data-route="dodaj" data-title="Dodaj inicjatywę" aria-labelledby="h-dodaj" hidden>
+  <nav class="stepnav" aria-label="Nawigacja">
+    <a class="back" href="#/panel">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"/></svg>Wróć do mapy
+    </a>
+  </nav>
+
+  <div class="stack-xs">
+    <h1 id="h-dodaj" class="h1-md" tabindex="-1">Dodaj inicjatywę</h1>
+    <p class="lead lead--sm">Pokaż sąsiadom, co robicie, kiedy i czego brakuje. Inicjatywa dostanie własną stronę z wpisami i zdjęciami.</p>
+  </div>
+
+  <form class="card stack-md" id="nowa-form" novalidate>
+    <div class="form-grid">
+      <div class="field">
+        <label for="n-tytul">Nazwa inicjatywy</label>
+        <input class="input" id="n-tytul" type="text" maxlength="90" placeholder="Np. Wspólne sprzątanie skweru">
+      </div>
+      <div class="field">
+        <label for="n-dz">Dzielnica</label>
+        <select id="n-dz"></select>
+      </div>
+      <div class="field">
+        <label for="n-sc">Droga</label>
+        <select id="n-sc"></select>
+      </div>
+      <fieldset class="field">
+        <legend>Na jakim etapie jesteście?</legend>
+        <div class="chips" data-group="n-status">
+          <button type="button" class="chip" aria-pressed="true" data-value="wsparcie">Szukamy wsparcia</button>
+          <button type="button" class="chip" aria-pressed="false" data-value="przygotowanie">W przygotowaniu</button>
+          <button type="button" class="chip" aria-pressed="false" data-value="realizacja">W realizacji</button>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="n-org">Kto organizuje</label>
+        <input class="input" id="n-org" type="text" maxlength="80" placeholder="Np. Sąsiedzi z ul. Lipowej">
+      </div>
+      <div class="field">
+        <label for="n-data">Data <span class="optional">(nieobowiązkowa)</span></label>
+        <input class="input" id="n-data" type="date">
+      </div>
+      <div class="field">
+        <span class="field__label" aria-hidden="true">Godziny</span>
+        <div class="time-range">
+          <input class="input" id="n-od" type="time" aria-label="Godzina rozpoczęcia">
+          <span aria-hidden="true">–</span>
+          <input class="input" id="n-do" type="time" aria-label="Godzina zakończenia">
+        </div>
+      </div>
+      <p class="hint hint--flat field">Bez daty, jeśli to stałe działanie, np. lodówka społeczna.</p>
+      <div class="field">
+        <label for="n-miejsce">Miejsce zbiórki</label>
+        <input class="input" id="n-miejsce" type="text" maxlength="120" placeholder="Np. skwer przy ul. Lipowej 5">
+      </div>
+      <div class="field">
+        <span class="field__label" id="n-mapa-label">Zaznacz miejsce na mapie</span>
+        <div class="map map--small" id="mapa-nowa" role="region" aria-labelledby="n-mapa-label"></div>
+        <p class="hint hint--flat" id="n-wspolrzedne">Kliknij na mapie albo przeciągnij pinezkę.</p>
+      </div>
+      <div class="field">
+        <label for="n-opis">Opis</label>
+        <textarea id="n-opis" rows="5" maxlength="2000" placeholder="Co chcecie zrobić, dla kogo i jak będzie wyglądać spotkanie."></textarea>
+      </div>
+      <div class="field">
+        <label for="n-potrzeby">Czego potrzeba</label>
+        <textarea id="n-potrzeby" rows="2" maxlength="300" placeholder="Np. 10 osób do sadzenia, łopaty, ktoś z samochodem"></textarea>
+      </div>
+      <div class="field field--half">
+        <label for="n-miejsca">Ilu osób szukacie</label>
+        <input class="input" id="n-miejsca" type="number" min="1" max="999" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="n-partnerzy">Kto już pomaga <span class="optional">(każdy w osobnej linii)</span></label>
+        <textarea id="n-partnerzy" rows="3" maxlength="600" placeholder="Np. MPO odbierze worki z odpadami&#10;Rada dzielnicy kupi rękawice"></textarea>
+      </div>
+      <fieldset class="field">
+        <legend>Udogodnienia</legend>
+        <div class="grid-2" id="n-udogodnienia"></div>
+      </fieldset>
+    </div>
+    <p class="form-error" id="nowa-blad" role="alert" hidden></p>
+    <button type="submit" class="btn btn-primary">Opublikuj inicjatywę</button>
+    <p class="note">Prototyp: inicjatywa zapisuje się tylko w tej przeglądarce.</p>
+  </form>
 </section>
 
 <!-- O projekcie -->
@@ -617,6 +840,16 @@
   </div>
 </section>
 </main>
+
+<dialog class="lightbox" id="podglad" aria-labelledby="podglad-opis">
+  <form method="dialog">
+    <button type="submit" class="lightbox__close" aria-label="Zamknij podgląd">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+    </button>
+  </form>
+  <img id="podglad-img" alt="">
+  <p class="lightbox__caption" id="podglad-opis"></p>
+</dialog>
 
 <footer class="stopka">
   <div class="stopka__in">
