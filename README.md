@@ -28,6 +28,10 @@ Dodatkowo:
 - **Projekt z BO nie wygrał?** Podpowiedzi, jak zrobić go inną drogą, i test ryzyka odrzucenia przed kolejnym zgłoszeniem.
 - **Panel dla miasta i organizacji.** Co zgłaszają mieszkańcy, w których dzielnicach i dokąd trafiają pomysły. Organizacje mogą kliknąć „Chcę pomóc”.
 - **Mapa inicjatyw.** Wszystkie inicjatywy na mapie Krakowa z podziałem na status (szuka wsparcia, w przygotowaniu, w realizacji), z filtrem „Tylko szukające wsparcia” i listą obok mapy. Klik w pinezkę pokazuje, czego brakuje i pozwala zgłosić chęć pomocy.
+- **Strona inicjatywy** (`#/inicjatywa/<id>`), na wzór strony wydarzenia w geocachingu: termin, miejsce zbiórki, organizator, opis, licznik chętnych, kto już pomaga (np. MPO odbiera worki po sprzątaniu), udogodnienia, mapa z dodatkowymi punktami, wpisy „Będę” / „Byłem/am” / komentarze ze zdjęciami, galeria, plik do kalendarza i link do udostępnienia.
+- **Dodaj inicjatywę** (`#/dodaj`). Każdy może dodać inicjatywę i zaznaczyć miejsce na mapie. Ze szkicu wniosku formularz przejmuje tytuł, opis i dzielnicę.
+
+Prototyp nie ma serwera: dodane inicjatywy, wpisy i zdjęcia zapisują się w `localStorage`, więc widzi je tylko ta przeglądarka.
 
 ## Ścieżki w Krakowie
 
@@ -50,12 +54,12 @@ Dodatkowo:
 
 Statyczna strona bez budowania. Jedyna biblioteka to [Leaflet](https://leafletjs.com) 1.9.4, dołączony w `assets/vendor/leaflet`, więc mapa nie zależy od zewnętrznego CDN.
 
-- **Lokalnie:** otwórz `index.html` w przeglądarce.
+- **Lokalnie:** otwórz `index.html` w przeglądarce. Jeśli przy otwarciu z pliku podkład mapy się nie wczyta, uruchom lokalny serwer: `python3 -m http.server` i wejdź na `http://localhost:8000`.
 - **GitHub Pages:** Settings → Pages → Deploy from a branch → `main` / `(root)`.
 
 Dyktowanie głosem działa w przeglądarkach z Web Speech API (np. Chrome). W pozostałych działa pole tekstowe.
 
-Podkład mapy: © [OpenStreetMap](https://www.openstreetmap.org/copyright), © [CARTO](https://carto.com/attributions). Bez internetu mapa pokazuje pinezki na pustym tle, a lista inicjatyw działa normalnie.
+Podkład mapy: © [OpenStreetMap](https://www.openstreetmap.org/copyright) (wcześniej CARTO, ale ich podkład wymaga teraz klucza API). Bez internetu mapa pokazuje pinezki na pustym tle, a lista inicjatyw działa normalnie.
 
 ## Status
 
